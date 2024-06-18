@@ -1,0 +1,147 @@
+#include <stdio.h>
+#include <stdbool.h>
+// Nama : Refkinaldi Azuar
+// NIM : 12250513606
+
+// Deklarasi variabel saldo awal dan PIN
+float balance =583000.00;
+int correct_pin = 2002;
+
+// Fungsi untuk memeriksa saldo
+void check_balance() {
+    printf("Saldo Anda saat ini adalah: Rp%.2f\n", balance);
+}
+
+// Fungsi untuk menyetor uang
+void deposit() {
+    float amount;
+    printf("Masukkan jumlah uang yang akan disetor: ");
+    scanf("%f", &amount);
+    if (amount > 0) {
+        balance += amount;
+        printf("Setoran berhasil! Saldo Anda sekarang adalah: Rp%.2f\n", balance);
+    } else {
+        printf("Jumlah setoran tidak valid.\n");
+    }
+}
+
+// Fungsi untuk menarik uang
+void withdraw() {
+    float amount;
+    printf("Masukkan jumlah uang yang akan ditarik: ");
+    scanf("%f", &amount);
+    if (amount > 0 && amount <= balance) {
+        balance -= amount;
+        printf("Penarikan berhasil! Saldo Anda sekarang adalah: Rp%.2f\n", balance);
+    } else if (amount > balance) {
+        printf("Saldo tidak mencukupi.\n");
+    } else {
+        printf("Jumlah penarikan tidak valid.\n");
+    }
+}
+
+// Fungsi untuk transfer uang
+void transfer() {
+    float amount;
+    int account_number;
+    printf("Masukkan nomor rekening tujuan: ");
+    scanf("%d", &account_number);
+    printf("Masukkan jumlah uang yang akan ditransfer: ");
+    scanf("%f", &amount);
+    if (amount > 0 && amount <= balance) {
+        balance -= amount;
+        printf("Transfer berhasil! Saldo Anda sekarang adalah: Rp%.2f\n", balance);
+    } else if (amount > balance) {
+        printf("Saldo tidak mencukupi.\n");
+    } else {
+        printf("Jumlah transfer tidak valid.\n");
+    }
+}
+
+// Fungsi untuk top up
+void top_up() {
+    float amount;
+    printf("Masukkan jumlah uang yang akan di-top up: ");
+    scanf("%f", &amount);
+    if (amount > 0 && amount <= balance) {
+        balance -= amount;
+        printf("Top up berhasil! Saldo Anda sekarang adalah: Rp%.2f\n", balance);
+    } else if (amount > balance) {
+        printf("Saldo tidak mencukupi.\n");
+    } else {
+        printf("Jumlah top up tidak valid.\n");
+    }
+}
+
+// Fungsi untuk memeriksa PIN
+bool verify_pin() {
+    int pin;
+    int attempts = 3;
+
+    while (attempts > 0) {
+        printf("Masukkan PIN Anda: ");
+        scanf("%d", &pin);
+
+        if (pin == correct_pin) {
+            return true;
+        } else {
+            attempts--;
+            printf("PIN salah. Anda memiliki %d kesempatan lagi.\n", attempts);
+        }
+    }
+
+    return false;
+}
+
+// Fungsi utama
+int main() {
+    int choice;
+
+    // Menampilkan pesan selamat datang
+    printf("=========================================\n");
+    printf("Selamat Datang di ATM PEKANBARU SEJAHTERA\n");
+    printf("=========================================\n");
+
+    // Memverifikasi PIN pengguna
+    if (!verify_pin()) {
+        printf("Anda telah memasukkan PIN yang salah sebanyak 3 kali. Program akan keluar.\n");
+        return 0;
+    }
+
+    while (1) {
+        printf("\nPilih salah satu opsi berikut:\n");
+        printf("1. Cek Saldo\n");
+        printf("2. Setor Tunai\n");
+        printf("3. Tarik Tunai\n");
+        printf("4. Transfer\n");
+        printf("5. Top Up\n");
+        printf("6. Keluar\n");
+        printf("Pilihan Anda (1-6): ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                check_balance();
+                break;
+            case 2:
+                deposit();
+                break;
+            case 3:
+                withdraw();
+                break;
+            case 4:
+                transfer();
+                break;
+            case 5:
+                top_up();
+                break;
+            case 6:
+                printf("Terima kasih telah menggunakan ATM PEKANBARU SEJAHTERA. Sampai jumpa!\n");
+                return 0;
+            default:
+                printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        }
+    }
+
+    return 0;
+}
